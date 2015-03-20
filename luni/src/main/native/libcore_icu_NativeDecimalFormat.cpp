@@ -57,7 +57,8 @@ static DecimalFormatSymbols* makeDecimalFormatSymbols(JNIEnv* env,
     ScopedJavaUnicodeString nan(env, nan0);
     UnicodeString groupingSeparator(groupingSeparator0);
 
-    DecimalFormatSymbols* result = new DecimalFormatSymbols;
+    UErrorCode errorCode;
+    DecimalFormatSymbols* result = new DecimalFormatSymbols(errorCode);
     result->setSymbol(DecimalFormatSymbols::kCurrencySymbol, currencySymbol.unicodeString());
     result->setSymbol(DecimalFormatSymbols::kDecimalSeparatorSymbol, UnicodeString(decimalSeparator));
     result->setSymbol(DecimalFormatSymbols::kDigitSymbol, UnicodeString(digit));
@@ -220,16 +221,16 @@ static jcharArray formatResult(JNIEnv* env, const UnicodeString &str, FieldPosit
     static jmethodID gFPI_setData = env->GetMethodID(JniConstants::fieldPositionIteratorClass, "setData", "([I)V");
 
     if (fpi != NULL) {
-        int len = fpi->getData(NULL, 0);
+//         int len = fpi->getData(NULL, 0);
         jintArray data = NULL;
-        if (len) {
-            data = env->NewIntArray(len);
-            ScopedIntArrayRW ints(env, data);
-            if (ints.get() == NULL) {
-                return NULL;
-            }
-            fpi->getData(ints.get(), len);
-        }
+//         if (len) {
+//             data = env->NewIntArray(len);
+//             ScopedIntArrayRW ints(env, data);
+//             if (ints.get() == NULL) {
+//                 return NULL;
+//             }
+//             fpi->getData(ints.get(), len);
+//         }
         env->CallVoidMethod(fpIter, gFPI_setData, data);
     }
 

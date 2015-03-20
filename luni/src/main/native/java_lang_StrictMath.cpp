@@ -16,106 +16,131 @@
 
 #define LOG_TAG "StrictMath"
 
-#include "../../external/fdlibm/fdlibm.h"
+// #include "../../external/fdlibm/fdlibm.h"
+#include <math.h>
 
 #include "jni.h"
 #include "JNIHelp.h"
 #include "JniConstants.h"
 
 static jdouble StrictMath_sin(JNIEnv*, jclass, jdouble a) {
-    return ieee_sin(a);
+    return sin(a);
+//     return ieee_sin(a);
 }
 
 static jdouble StrictMath_cos(JNIEnv*, jclass, jdouble a) {
-    return ieee_cos(a);
+    return cos(a);
+//     return ieee_cos(a);
 }
 
 static jdouble StrictMath_tan(JNIEnv*, jclass, jdouble a) {
-    return ieee_tan(a);
+    return tan(a);
+//     return ieee_tan(a);
 }
 
 static jdouble StrictMath_asin(JNIEnv*, jclass, jdouble a) {
-    return ieee_asin(a);
+    return asin(a);
+//     return ieee_asin(a);
 }
 
 static jdouble StrictMath_acos(JNIEnv*, jclass, jdouble a) {
-    return ieee_acos(a);
+    return acos(a);
+//     return ieee_acos(a);
 }
 
 static jdouble StrictMath_atan(JNIEnv*, jclass, jdouble a) {
-    return ieee_atan(a);
+    return atan(a);
+//     return ieee_atan(a);
 }
 
 static jdouble StrictMath_exp(JNIEnv*, jclass, jdouble a) {
-    return ieee_exp(a);
+    return exp(a);
+//     return ieee_exp(a);
 }
 
 static jdouble StrictMath_log(JNIEnv*, jclass, jdouble a) {
-    return ieee_log(a);
+    return log(a);
+//     return ieee_log(a);
 }
 
 static jdouble StrictMath_sqrt(JNIEnv*, jclass, jdouble a) {
-    return ieee_sqrt(a);
+    return sqrt(a);
+//     return ieee_sqrt(a);
 }
 
 static jdouble StrictMath_IEEEremainder(JNIEnv*, jclass, jdouble a, jdouble b) {
-    return ieee_remainder(a, b);
+    return remainder(a, b);
+//     return ieee_remainder(a, b);
 }
 
 static jdouble StrictMath_floor(JNIEnv*, jclass, jdouble a) {
-    return ieee_floor(a);
+    return floor(a);
+//     return ieee_floor(a);
 }
 
 static jdouble StrictMath_ceil(JNIEnv*, jclass, jdouble a) {
-    return ieee_ceil(a);
+    return ceil(a);
+//     return ieee_ceil(a);
 }
 
 static jdouble StrictMath_rint(JNIEnv*, jclass, jdouble a) {
-    return ieee_rint(a);
+    return rint(a);
+//     return ieee_rint(a);
 }
 
 static jdouble StrictMath_atan2(JNIEnv*, jclass, jdouble a, jdouble b) {
-    return ieee_atan2(a, b);
+    return atan2(a, b);
+//     return ieee_atan2(a, b);
 }
 
 static jdouble StrictMath_pow(JNIEnv*, jclass, jdouble a, jdouble b) {
-    return ieee_pow(a,b);
+    return pow(a,b);
+//     return ieee_pow(a,b);
 }
 
 static jdouble StrictMath_sinh(JNIEnv*, jclass, jdouble a) {
-    return ieee_sinh(a);
+    return sinh(a);
+//     return ieee_sinh(a);
 }
 
 static jdouble StrictMath_tanh(JNIEnv*, jclass, jdouble a) {
-    return ieee_tanh(a);
+    return tanh(a);
+//     return ieee_tanh(a);
 }
 
 static jdouble StrictMath_cosh(JNIEnv*, jclass, jdouble a) {
-    return ieee_cosh(a);
+    return cosh(a);
+//     return ieee_cosh(a);
 }
 
 static jdouble StrictMath_log10(JNIEnv*, jclass, jdouble a) {
-    return ieee_log10(a);
+    return log10(a);
+//     return ieee_log10(a);
 }
 
 static jdouble StrictMath_cbrt(JNIEnv*, jclass, jdouble a) {
-    return ieee_cbrt(a);
+    return cbrt(a);
+//     return ieee_cbrt(a);
 }
 
 static jdouble StrictMath_expm1(JNIEnv*, jclass, jdouble a) {
-    return ieee_expm1(a);
+    return expm1(a);
+//     return ieee_expm1(a);
 }
 
 static jdouble StrictMath_hypot(JNIEnv*, jclass, jdouble a, jdouble b) {
-    return ieee_hypot(a, b);
+    return hypot(a, b);
+//     return ieee_hypot(a, b);
 }
 
 static jdouble StrictMath_log1p(JNIEnv*, jclass, jdouble a) {
-    return ieee_log1p(a);
+    return log1p(a);
+//     return ieee_log1p(a);
 }
 
 static jdouble StrictMath_nextafter(JNIEnv*, jclass, jdouble a, jdouble b) {
-    return ieee_nextafter(a, b);
+    return nextafter(a, b);
+//     return ieee_nextafter(a, b);
 }
 
 static JNINativeMethod gMethods[] = {
