@@ -48,15 +48,15 @@ public final class Security {
     // - if no provider description file found then load default providers
     static {
         boolean loaded = false;
-        try {
-            InputStream configStream = Security.class.getResourceAsStream("security.properties");
-            InputStream input = new BufferedInputStream(configStream);
-            secprops.load(input);
-            loaded = true;
-            configStream.close();
-        } catch (Exception ex) {
-            System.logE("Could not load 'security.properties'", ex);
-        }
+//         try {
+//             InputStream configStream = Security.class.getResourceAsStream("security.properties");
+//             InputStream input = new BufferedInputStream(configStream);
+//             secprops.load(input);
+//             loaded = true;
+//             configStream.close();
+//         } catch (Exception ex) {
+//             System.logE("Could not load 'security.properties'", ex);
+//         }
         if (!loaded) {
             registerDefaultProviders();
         }
