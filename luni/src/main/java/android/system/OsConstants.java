@@ -14,29 +14,89 @@
  * limitations under the License.
  */
 
-package libcore.io;
+package android.system;
 
+/**
+ * Constants and helper functions for use with {@link Os}.
+ */
 public final class OsConstants {
-    private OsConstants() { }
+    private OsConstants() {
+    }
 
+    /**
+     * Tests whether the given mode is a block device.
+     */
     public static boolean S_ISBLK(int mode) { return (mode & S_IFMT) == S_IFBLK; }
+
+    /**
+     * Tests whether the given mode is a character device.
+     */
     public static boolean S_ISCHR(int mode) { return (mode & S_IFMT) == S_IFCHR; }
+
+    /**
+     * Tests whether the given mode is a directory.
+     */
     public static boolean S_ISDIR(int mode) { return (mode & S_IFMT) == S_IFDIR; }
+
+    /**
+     * Tests whether the given mode is a FIFO.
+     */
     public static boolean S_ISFIFO(int mode) { return (mode & S_IFMT) == S_IFIFO; }
+
+    /**
+     * Tests whether the given mode is a regular file.
+     */
     public static boolean S_ISREG(int mode) { return (mode & S_IFMT) == S_IFREG; }
+
+    /**
+     * Tests whether the given mode is a symbolic link.
+     */
     public static boolean S_ISLNK(int mode) { return (mode & S_IFMT) == S_IFLNK; }
+
+    /**
+     * Tests whether the given mode is a socket.
+     */
     public static boolean S_ISSOCK(int mode) { return (mode & S_IFMT) == S_IFSOCK; }
 
+    /**
+     * Extracts the exit status of a child. Only valid if WIFEXITED returns true.
+     */
     public static int WEXITSTATUS(int status) { return (status & 0xff00) >> 8; }
+
+    /**
+     * Tests whether the child dumped core. Only valid if WIFSIGNALED returns true.
+     */
     public static boolean WCOREDUMP(int status) { return (status & 0x80) != 0; }
+
+    /**
+     * Returns the signal that caused the child to exit. Only valid if WIFSIGNALED returns true.
+     */
     public static int WTERMSIG(int status) { return status & 0x7f; }
+
+    /**
+     * Returns the signal that cause the child to stop. Only valid if WIFSTOPPED returns true.
+     */
     public static int WSTOPSIG(int status) { return WEXITSTATUS(status); }
+
+    /**
+     * Tests whether the child exited normally.
+     */
     public static boolean WIFEXITED(int status) { return (WTERMSIG(status) == 0); }
+
+    /**
+     * Tests whether the child was stopped (not terminated) by a signal.
+     */
     public static boolean WIFSTOPPED(int status) { return (WTERMSIG(status) == 0x7f); }
+
+    /**
+     * Tests whether the child was terminated by a signal.
+     */
     public static boolean WIFSIGNALED(int status) { return (WTERMSIG(status + 1) >= 2); }
 
     public static final int AF_INET = placeholder();
     public static final int AF_INET6 = placeholder();
+    /** @hide */ public static final int AF_NETLINK = placeholder();
+    /** @hide */ public static final int AF_PACKET = placeholder();
     public static final int AF_UNIX = placeholder();
     public static final int AF_UNSPEC = placeholder();
     public static final int AI_ADDRCONFIG = placeholder();
@@ -46,8 +106,11 @@ public final class OsConstants {
     public static final int AI_NUMERICSERV = placeholder();
     public static final int AI_PASSIVE = placeholder();
     public static final int AI_V4MAPPED = placeholder();
+    /** @hide */ public static final int ARPHRD_ETHER = placeholder();
+    /** @hide */ public static final int ARPHRD_LOOPBACK = placeholder();
     public static final int CAP_AUDIT_CONTROL = placeholder();
     public static final int CAP_AUDIT_WRITE = placeholder();
+    public static final int CAP_BLOCK_SUSPEND = placeholder();
     public static final int CAP_CHOWN = placeholder();
     public static final int CAP_DAC_OVERRIDE = placeholder();
     public static final int CAP_DAC_READ_SEARCH = placeholder();
@@ -168,6 +231,9 @@ public final class OsConstants {
     public static final int ESPIPE = placeholder();
     public static final int ESRCH = placeholder();
     public static final int ESTALE = placeholder();
+    /** @hide */ public static final int ETH_P_ARP = placeholder();
+    /** @hide */ public static final int ETH_P_IP = placeholder();
+    /** @hide */ public static final int ETH_P_IPV6 = placeholder();
     public static final int ETIME = placeholder();
     public static final int ETIMEDOUT = placeholder();
     public static final int ETXTBSY = placeholder();
@@ -194,6 +260,15 @@ public final class OsConstants {
     public static final int F_SETOWN = placeholder();
     public static final int F_UNLCK = placeholder();
     public static final int F_WRLCK = placeholder();
+    public static final int IFA_F_DADFAILED = placeholder();
+    public static final int IFA_F_DEPRECATED = placeholder();
+    public static final int IFA_F_HOMEADDRESS = placeholder();
+    public static final int IFA_F_NODAD = placeholder();
+    public static final int IFA_F_OPTIMISTIC = placeholder();
+    public static final int IFA_F_PERMANENT = placeholder();
+    public static final int IFA_F_SECONDARY = placeholder();
+    public static final int IFA_F_TEMPORARY = placeholder();
+    public static final int IFA_F_TENTATIVE = placeholder();
     public static final int IFF_ALLMULTI = placeholder();
     public static final int IFF_AUTOMEDIA = placeholder();
     public static final int IFF_BROADCAST = placeholder();
@@ -240,6 +315,10 @@ public final class OsConstants {
     public static final int MAP_SHARED = placeholder();
     public static final int MCAST_JOIN_GROUP = placeholder();
     public static final int MCAST_LEAVE_GROUP = placeholder();
+    public static final int MCAST_JOIN_SOURCE_GROUP = placeholder();
+    public static final int MCAST_LEAVE_SOURCE_GROUP = placeholder();
+    public static final int MCAST_BLOCK_SOURCE = placeholder();
+    public static final int MCAST_UNBLOCK_SOURCE = placeholder();
     public static final int MCL_CURRENT = placeholder();
     public static final int MCL_FUTURE = placeholder();
     public static final int MSG_CTRUNC = placeholder();
@@ -252,6 +331,7 @@ public final class OsConstants {
     public static final int MS_ASYNC = placeholder();
     public static final int MS_INVALIDATE = placeholder();
     public static final int MS_SYNC = placeholder();
+    /** @hide */ public static final int NETLINK_ROUTE = placeholder();
     public static final int NI_DGRAM = placeholder();
     public static final int NI_NAMEREQD = placeholder();
     public static final int NI_NOFQDN = placeholder();
@@ -280,11 +360,32 @@ public final class OsConstants {
     public static final int POLLRDNORM = placeholder();
     public static final int POLLWRBAND = placeholder();
     public static final int POLLWRNORM = placeholder();
+    public static final int PR_GET_DUMPABLE = placeholder();
+    public static final int PR_SET_DUMPABLE = placeholder();
+    public static final int PR_SET_NO_NEW_PRIVS = placeholder();
     public static final int PROT_EXEC = placeholder();
     public static final int PROT_NONE = placeholder();
     public static final int PROT_READ = placeholder();
     public static final int PROT_WRITE = placeholder();
     public static final int R_OK = placeholder();
+    public static final int RT_SCOPE_HOST = placeholder();
+    public static final int RT_SCOPE_LINK = placeholder();
+    public static final int RT_SCOPE_NOWHERE = placeholder();
+    public static final int RT_SCOPE_SITE = placeholder();
+    public static final int RT_SCOPE_UNIVERSE = placeholder();
+    /** @hide */ public static final int RTMGRP_IPV4_IFADDR = placeholder();
+    /** @hide */ public static final int RTMGRP_IPV4_MROUTE = placeholder();
+    /** @hide */ public static final int RTMGRP_IPV4_ROUTE = placeholder();
+    /** @hide */ public static final int RTMGRP_IPV4_RULE = placeholder();
+    /** @hide */ public static final int RTMGRP_IPV6_IFADDR = placeholder();
+    /** @hide */ public static final int RTMGRP_IPV6_IFINFO = placeholder();
+    /** @hide */ public static final int RTMGRP_IPV6_MROUTE = placeholder();
+    /** @hide */ public static final int RTMGRP_IPV6_PREFIX = placeholder();
+    /** @hide */ public static final int RTMGRP_IPV6_ROUTE = placeholder();
+    /** @hide */ public static final int RTMGRP_LINK = placeholder();
+    /** @hide */ public static final int RTMGRP_NEIGH = placeholder();
+    /** @hide */ public static final int RTMGRP_NOTIFY = placeholder();
+    /** @hide */ public static final int RTMGRP_TC = placeholder();
     public static final int SEEK_CUR = placeholder();
     public static final int SEEK_END = placeholder();
     public static final int SEEK_SET = placeholder();
@@ -354,6 +455,15 @@ public final class OsConstants {
     public static final int STDERR_FILENO = placeholder();
     public static final int STDIN_FILENO = placeholder();
     public static final int STDOUT_FILENO = placeholder();
+    /** @hide */ public static final int ST_MANDLOCK = placeholder();
+    /** @hide */ public static final int ST_NOATIME = placeholder();
+    /** @hide */ public static final int ST_NODEV = placeholder();
+    /** @hide */ public static final int ST_NODIRATIME = placeholder();
+    /** @hide */ public static final int ST_NOEXEC = placeholder();
+    /** @hide */ public static final int ST_NOSUID = placeholder();
+    /** @hide */ public static final int ST_RDONLY = placeholder();
+    /** @hide */ public static final int ST_RELATIME = placeholder();
+    /** @hide */ public static final int ST_SYNCHRONOUS = placeholder();
     public static final int S_IFBLK = placeholder();
     public static final int S_IFCHR = placeholder();
     public static final int S_IFDIR = placeholder();
@@ -477,6 +587,10 @@ public final class OsConstants {
     public static final int _SC_XOPEN_VERSION = placeholder();
     public static final int _SC_XOPEN_XCU_VERSION = placeholder();
 
+    /**
+     * Returns the string name of a getaddrinfo(3) error value.
+     * For example, "EAI_AGAIN".
+     */
     public static String gaiName(int error) {
         if (error == EAI_AGAIN) {
             return "EAI_AGAIN";
@@ -514,6 +628,10 @@ public final class OsConstants {
         return null;
     }
 
+    /**
+     * Returns the string name of an errno value.
+     * For example, "EACCES". See {@link Os#strerror} for human-readable errno descriptions.
+     */
     public static String errnoName(int errno) {
         if (errno == E2BIG) {
             return "E2BIG";

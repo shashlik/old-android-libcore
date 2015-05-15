@@ -38,7 +38,7 @@ import libcore.io.GaiException;
 import libcore.io.IoBridge;
 import libcore.io.Libcore;
 import libcore.io.Memory;
-import libcore.io.StructAddrinfo;
+import android.system.StructAddrinfo;
 import static libcore.io.OsConstants.*;
 
 /**
@@ -140,6 +140,9 @@ public class InetAddress implements Serializable {
      * @hide internal use only
      */
     public static final InetAddress UNSPECIFIED = new InetAddress(AF_UNSPEC, null, null);
+
+    /** Using NetID of NETID_UNSET indicates resolution should be done on default network. */
+    private static final int NETID_UNSET = 0;
 
     /**
      * Constructs an {@code InetAddress}.
@@ -266,7 +269,7 @@ public class InetAddress implements Serializable {
         hints.ai_flags = AI_NUMERICHOST;
         InetAddress[] addresses = null;
         try {
-            addresses = Libcore.os.getaddrinfo(address, hints);
+            addresses = Libcore.os.android_getaddrinfo(address, hints, NETID_UNSET);
         } catch (GaiException ignored) {
         }
         return (addresses != null) ? addresses[0] : null;
@@ -402,7 +405,7 @@ public class InetAddress implements Serializable {
             // for SOCK_STREAM and one for SOCK_DGRAM. Since we do not return the family
             // anyway, just pick one.
             hints.ai_socktype = SOCK_STREAM;
-            InetAddress[] addresses = Libcore.os.getaddrinfo(host, hints);
+            InetAddress[] addresses = Libcore.os.android_getaddrinfo(host, hints, NETID_UNSET);
             // TODO: should getaddrinfo set the hostname of the InetAddresses it returns?
             for (InetAddress address : addresses) {
                 address.hostName = host;

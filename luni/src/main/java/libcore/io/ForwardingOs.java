@@ -16,14 +16,29 @@
 
 package libcore.io;
 
+import libcore.io.ErrnoException;
+import libcore.io.GaiException;
+import android.system.StructAddrinfo;
+import android.system.StructFlock;
+import android.system.StructGroupReq;
+import android.system.StructGroupSourceReq;
+import android.system.StructLinger;
+import android.system.StructPasswd;
+import android.system.StructPollfd;
+import android.system.StructStat;
+import android.system.StructStatVfs;
+import android.system.StructTimeval;
+import android.system.StructUcred;
+import android.system.StructUtsname;
+import libcore.util.MutableInt;
+import libcore.util.MutableLong;
 import java.io.FileDescriptor;
+import java.io.InterruptedIOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.SocketException;
 import java.nio.ByteBuffer;
-import libcore.util.MutableInt;
-import libcore.util.MutableLong;
 
 /**
  * Subclass this if you want to override some {@link Os} methods but otherwise delegate.
@@ -37,11 +52,14 @@ public class ForwardingOs implements Os {
 
     public FileDescriptor accept(FileDescriptor fd, InetSocketAddress peerAddress) throws ErrnoException, SocketException { return os.accept(fd, peerAddress); }
     public boolean access(String path, int mode) throws ErrnoException { return os.access(path, mode); }
+    public InetAddress[] android_getaddrinfo(String node, StructAddrinfo hints, int netId) throws GaiException { return os.android_getaddrinfo(node, hints, netId); }
     public void bind(FileDescriptor fd, InetAddress address, int port) throws ErrnoException, SocketException { os.bind(fd, address, port); }
+    public void bind(FileDescriptor fd, SocketAddress address) throws ErrnoException, SocketException { os.bind(fd, address); }
     public void chmod(String path, int mode) throws ErrnoException { os.chmod(path, mode); }
     public void chown(String path, int uid, int gid) throws ErrnoException { os.chown(path, uid, gid); }
     public void close(FileDescriptor fd) throws ErrnoException { os.close(fd); }
     public void connect(FileDescriptor fd, InetAddress address, int port) throws ErrnoException, SocketException { os.connect(fd, address, port); }
+    public void connect(FileDescriptor fd, SocketAddress address) throws ErrnoException, SocketException { os.connect(fd, address); }
     public FileDescriptor dup(FileDescriptor oldFd) throws ErrnoException { return os.dup(oldFd); }
     public FileDescriptor dup2(FileDescriptor oldFd, int newFd) throws ErrnoException { return os.dup2(oldFd, newFd); }
     public String[] environ() { return os.environ(); }
@@ -49,22 +67,22 @@ public class ForwardingOs implements Os {
     public void execve(String filename, String[] argv, String[] envp) throws ErrnoException { os.execve(filename, argv, envp); }
     public void fchmod(FileDescriptor fd, int mode) throws ErrnoException { os.fchmod(fd, mode); }
     public void fchown(FileDescriptor fd, int uid, int gid) throws ErrnoException { os.fchown(fd, uid, gid); }
+    public int fcntlFlock(FileDescriptor fd, int cmd, StructFlock arg) throws ErrnoException, InterruptedIOException { return os.fcntlFlock(fd, cmd, arg); }
+    public int fcntlInt(FileDescriptor fd, int cmd, int arg) throws ErrnoException { return os.fcntlInt(fd, cmd, arg); }
     public int fcntlVoid(FileDescriptor fd, int cmd) throws ErrnoException { return os.fcntlVoid(fd, cmd); }
-    public int fcntlLong(FileDescriptor fd, int cmd, long arg) throws ErrnoException { return os.fcntlLong(fd, cmd, arg); }
-    public int fcntlFlock(FileDescriptor fd, int cmd, StructFlock arg) throws ErrnoException { return os.fcntlFlock(fd, cmd, arg); }
     public void fdatasync(FileDescriptor fd) throws ErrnoException { os.fdatasync(fd); }
     public StructStat fstat(FileDescriptor fd) throws ErrnoException { return os.fstat(fd); }
     public StructStatVfs fstatvfs(FileDescriptor fd) throws ErrnoException { return os.fstatvfs(fd); }
     public void fsync(FileDescriptor fd) throws ErrnoException { os.fsync(fd); }
     public void ftruncate(FileDescriptor fd, long length) throws ErrnoException { os.ftruncate(fd, length); }
     public String gai_strerror(int error) { return os.gai_strerror(error); }
-    public InetAddress[] getaddrinfo(String node, StructAddrinfo hints) throws GaiException { return os.getaddrinfo(node, hints); }
     public int getegid() { return os.getegid(); }
     public int geteuid() { return os.geteuid(); }
     public int getgid() { return os.getgid(); }
     public String getenv(String name) { return os.getenv(name); }
     public String getnameinfo(InetAddress address, int flags) throws GaiException { return os.getnameinfo(address, flags); }
     public SocketAddress getpeername(FileDescriptor fd) throws ErrnoException { return os.getpeername(fd); }
+    public int getpgid(int pid) throws ErrnoException { return os.getpgid(pid); }
     public int getpid() { return os.getpid(); }
     public int getppid() { return os.getppid(); }
     public StructPasswd getpwnam(String name) throws ErrnoException { return os.getpwnam(name); }
@@ -85,26 +103,31 @@ public class ForwardingOs implements Os {
     public boolean isatty(FileDescriptor fd) { return os.isatty(fd); }
     public void kill(int pid, int signal) throws ErrnoException { os.kill(pid, signal); }
     public void lchown(String path, int uid, int gid) throws ErrnoException { os.lchown(path, uid, gid); }
+    public void link(String oldPath, String newPath) throws ErrnoException { os.link(oldPath, newPath); }
     public void listen(FileDescriptor fd, int backlog) throws ErrnoException { os.listen(fd, backlog); }
     public long lseek(FileDescriptor fd, long offset, int whence) throws ErrnoException { return os.lseek(fd, offset, whence); }
     public StructStat lstat(String path) throws ErrnoException { return os.lstat(path); }
     public void mincore(long address, long byteCount, byte[] vector) throws ErrnoException { os.mincore(address, byteCount, vector); }
     public void mkdir(String path, int mode) throws ErrnoException { os.mkdir(path, mode); }
+    public void mkfifo(String path, int mode) throws ErrnoException { os.mkfifo(path, mode); }
     public void mlock(long address, long byteCount) throws ErrnoException { os.mlock(address, byteCount); }
     public long mmap(long address, long byteCount, int prot, int flags, FileDescriptor fd, long offset) throws ErrnoException { return os.mmap(address, byteCount, prot, flags, fd, offset); }
     public void msync(long address, long byteCount, int flags) throws ErrnoException { os.msync(address, byteCount, flags); }
     public void munlock(long address, long byteCount) throws ErrnoException { os.munlock(address, byteCount); }
     public void munmap(long address, long byteCount) throws ErrnoException { os.munmap(address, byteCount); }
     public FileDescriptor open(String path, int flags, int mode) throws ErrnoException { return os.open(path, flags, mode); }
-    public FileDescriptor[] pipe() throws ErrnoException { return os.pipe(); }
+    public FileDescriptor[] pipe2(int flags) throws ErrnoException { return os.pipe2(flags); }
     public int poll(StructPollfd[] fds, int timeoutMs) throws ErrnoException { return os.poll(fds, timeoutMs); }
-    public int pread(FileDescriptor fd, ByteBuffer buffer, long offset) throws ErrnoException { return os.pread(fd, buffer, offset); }
-    public int pread(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount, long offset) throws ErrnoException { return os.pread(fd, bytes, byteOffset, byteCount, offset); }
-    public int pwrite(FileDescriptor fd, ByteBuffer buffer, long offset) throws ErrnoException { return os.pwrite(fd, buffer, offset); }
-    public int pwrite(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount, long offset) throws ErrnoException { return os.pwrite(fd, bytes, byteOffset, byteCount, offset); }
-    public int read(FileDescriptor fd, ByteBuffer buffer) throws ErrnoException { return os.read(fd, buffer); }
-    public int read(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount) throws ErrnoException { return os.read(fd, bytes, byteOffset, byteCount); }
-    public int readv(FileDescriptor fd, Object[] buffers, int[] offsets, int[] byteCounts) throws ErrnoException { return os.readv(fd, buffers, offsets, byteCounts); }
+    public void posix_fallocate(FileDescriptor fd, long offset, long length) throws ErrnoException { os.posix_fallocate(fd, offset, length); }
+    public int prctl(int option, long arg2, long arg3, long arg4, long arg5) throws ErrnoException { return os.prctl(option, arg2, arg3, arg4, arg5); };
+    public int pread(FileDescriptor fd, ByteBuffer buffer, long offset) throws ErrnoException, InterruptedIOException { return os.pread(fd, buffer, offset); }
+    public int pread(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount, long offset) throws ErrnoException, InterruptedIOException { return os.pread(fd, bytes, byteOffset, byteCount, offset); }
+    public int pwrite(FileDescriptor fd, ByteBuffer buffer, long offset) throws ErrnoException, InterruptedIOException { return os.pwrite(fd, buffer, offset); }
+    public int pwrite(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount, long offset) throws ErrnoException, InterruptedIOException { return os.pwrite(fd, bytes, byteOffset, byteCount, offset); }
+    public int read(FileDescriptor fd, ByteBuffer buffer) throws ErrnoException, InterruptedIOException { return os.read(fd, buffer); }
+    public int read(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount) throws ErrnoException, InterruptedIOException { return os.read(fd, bytes, byteOffset, byteCount); }
+    public String readlink(String path) throws ErrnoException { return os.readlink(path); }
+    public int readv(FileDescriptor fd, Object[] buffers, int[] offsets, int[] byteCounts) throws ErrnoException, InterruptedIOException { return os.readv(fd, buffers, offsets, byteCounts); }
     public int recvfrom(FileDescriptor fd, ByteBuffer buffer, int flags, InetSocketAddress srcAddress) throws ErrnoException, SocketException { return os.recvfrom(fd, buffer, flags, srcAddress); }
     public int recvfrom(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount, int flags, InetSocketAddress srcAddress) throws ErrnoException, SocketException { return os.recvfrom(fd, bytes, byteOffset, byteCount, flags, srcAddress); }
     public void remove(String path) throws ErrnoException { os.remove(path); }
@@ -112,16 +135,21 @@ public class ForwardingOs implements Os {
     public long sendfile(FileDescriptor outFd, FileDescriptor inFd, MutableLong inOffset, long byteCount) throws ErrnoException { return os.sendfile(outFd, inFd, inOffset, byteCount); }
     public int sendto(FileDescriptor fd, ByteBuffer buffer, int flags, InetAddress inetAddress, int port) throws ErrnoException, SocketException { return os.sendto(fd, buffer, flags, inetAddress, port); }
     public int sendto(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount, int flags, InetAddress inetAddress, int port) throws ErrnoException, SocketException { return os.sendto(fd, bytes, byteOffset, byteCount, flags, inetAddress, port); }
+    public int sendto(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount, int flags, SocketAddress address) throws ErrnoException, SocketException { return os.sendto(fd, bytes, byteOffset, byteCount, flags, address); }
     public void setegid(int egid) throws ErrnoException { os.setegid(egid); }
     public void setenv(String name, String value, boolean overwrite) throws ErrnoException { os.setenv(name, value, overwrite); }
     public void seteuid(int euid) throws ErrnoException { os.seteuid(euid); }
     public void setgid(int gid) throws ErrnoException { os.setgid(gid); }
+    public void setpgid(int pid, int pgid) throws ErrnoException { os.setpgid(pid, pgid); }
+    public void setregid(int rgid, int egid) throws ErrnoException { os.setregid(rgid, egid); }
+    public void setreuid(int ruid, int euid) throws ErrnoException { os.setregid(ruid, euid); }
     public int setsid() throws ErrnoException { return os.setsid(); }
     public void setsockoptByte(FileDescriptor fd, int level, int option, int value) throws ErrnoException { os.setsockoptByte(fd, level, option, value); }
     public void setsockoptIfreq(FileDescriptor fd, int level, int option, String value) throws ErrnoException { os.setsockoptIfreq(fd, level, option, value); }
     public void setsockoptInt(FileDescriptor fd, int level, int option, int value) throws ErrnoException { os.setsockoptInt(fd, level, option, value); }
     public void setsockoptIpMreqn(FileDescriptor fd, int level, int option, int value) throws ErrnoException { os.setsockoptIpMreqn(fd, level, option, value); }
     public void setsockoptGroupReq(FileDescriptor fd, int level, int option, StructGroupReq value) throws ErrnoException { os.setsockoptGroupReq(fd, level, option, value); }
+    public void setsockoptGroupSourceReq(FileDescriptor fd, int level, int option, StructGroupSourceReq value) throws ErrnoException { os.setsockoptGroupSourceReq(fd, level, option, value); }
     public void setsockoptLinger(FileDescriptor fd, int level, int option, StructLinger value) throws ErrnoException { os.setsockoptLinger(fd, level, option, value); }
     public void setsockoptTimeval(FileDescriptor fd, int level, int option, StructTimeval value) throws ErrnoException { os.setsockoptTimeval(fd, level, option, value); }
     public void setuid(int uid) throws ErrnoException { os.setuid(uid); }
@@ -140,7 +168,7 @@ public class ForwardingOs implements Os {
     public StructUtsname uname() { return os.uname(); }
     public void unsetenv(String name) throws ErrnoException { os.unsetenv(name); }
     public int waitpid(int pid, MutableInt status, int options) throws ErrnoException { return os.waitpid(pid, status, options); }
-    public int write(FileDescriptor fd, ByteBuffer buffer) throws ErrnoException { return os.write(fd, buffer); }
-    public int write(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount) throws ErrnoException { return os.write(fd, bytes, byteOffset, byteCount); }
-    public int writev(FileDescriptor fd, Object[] buffers, int[] offsets, int[] byteCounts) throws ErrnoException { return os.writev(fd, buffers, offsets, byteCounts); }
+    public int write(FileDescriptor fd, ByteBuffer buffer) throws ErrnoException, InterruptedIOException { return os.write(fd, buffer); }
+    public int write(FileDescriptor fd, byte[] bytes, int byteOffset, int byteCount) throws ErrnoException, InterruptedIOException { return os.write(fd, bytes, byteOffset, byteCount); }
+    public int writev(FileDescriptor fd, Object[] buffers, int[] offsets, int[] byteCounts) throws ErrnoException, InterruptedIOException { return os.writev(fd, buffers, offsets, byteCounts); }
 }

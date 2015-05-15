@@ -93,7 +93,7 @@ public final class IoUtils {
             } else {
                 flags &= ~O_NONBLOCK;
             }
-            Libcore.os.fcntlLong(fd, F_SETFL, flags);
+//             Libcore.os.fcntlLong(fd, F_SETFL, flags);
         } catch (ErrnoException errnoException) {
             throw errnoException.rethrowAsIOException();
         }

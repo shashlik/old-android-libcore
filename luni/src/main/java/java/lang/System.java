@@ -53,8 +53,8 @@ import java.util.Set;
 import libcore.icu.ICU;
 import libcore.io.ErrnoException;
 import libcore.io.Libcore;
-import libcore.io.StructPasswd;
-import libcore.io.StructUtsname;
+import android.system.StructPasswd;
+import android.system.StructUtsname;
 import libcore.util.ZoneInfoDB;
 
 /**

@@ -37,6 +37,18 @@ import java.nio.ByteBuffer;
 import java.util.Arrays;
 import static libcore.io.OsConstants.*;
 import libcore.util.MutableInt;
+import android.system.StructAddrinfo;
+import android.system.StructFlock;
+import android.system.StructGroupReq;
+import android.system.StructGroupSourceReq;
+import android.system.StructLinger;
+import android.system.StructPasswd;
+import android.system.StructPollfd;
+import android.system.StructStat;
+import android.system.StructStatVfs;
+import android.system.StructTimeval;
+import android.system.StructUcred;
+import android.system.StructUtsname;
 
 /**
  * Implements java.io/java.net/java.nio semantics in terms of the underlying POSIX system calls.

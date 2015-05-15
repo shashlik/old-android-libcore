@@ -64,7 +64,6 @@ static inline int mincore(void* addr, size_t length, unsigned char* vec) {
 // For statfs(3).
 #include <sys/param.h>
 #include <sys/mount.h>
-#define f_frsize f_bsize // TODO: close enough?
 
 #else
 
@@ -75,5 +74,32 @@ static inline int mincore(void* addr, size_t length, unsigned char* vec) {
 #include <sys/statvfs.h>
 
 #endif
+
+#include <netdb.h>
+#if defined(__BIONIC__)
+extern "C" int android_getaddrinfofornet(const char*, const char*, const struct addrinfo*, unsigned, unsigned, struct addrinfo**);
+#else
+static inline int android_getaddrinfofornet(const char* hostname, const char* servname,
+    const struct addrinfo* hints, unsigned /*netid*/, unsigned /*mark*/, struct addrinfo** res) {
+  return getaddrinfo(hostname, servname, hints, res);
+}
+#endif
+
+#if defined(__GLIBC__) && !defined(__LP64__)
+
+#include <unistd.h>
+
+// 32 bit GLIBC hardcodes a "long int" as the return type for
+// TEMP_FAILURE_RETRY so the return value here gets truncated for
+// functions that return 64 bit types.
+#undef TEMP_FAILURE_RETRY
+#define TEMP_FAILURE_RETRY(exp) ({         \
+    __typeof__(exp) _rc;                   \
+    do {                                   \
+        _rc = (exp);                       \
+    } while (_rc == -1 && errno == EINTR); \
+    _rc; })
+
+#endif  // __GLIBC__ && !__LP64__
 
 #endif  // PORTABILITY_H_included

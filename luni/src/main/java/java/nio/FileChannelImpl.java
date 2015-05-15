@@ -34,7 +34,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import libcore.io.ErrnoException;
 import libcore.io.Libcore;
-import libcore.io.StructFlock;
+import android.system.StructFlock;
 import libcore.util.MutableLong;
 import static libcore.io.OsConstants.*;
 

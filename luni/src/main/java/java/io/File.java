@@ -26,8 +26,8 @@ import java.util.Random;
 import libcore.io.ErrnoException;
 import libcore.io.IoUtils;
 import libcore.io.Libcore;
-import libcore.io.StructStat;
-import libcore.io.StructStatVfs;
+import android.system.StructStat;
+import android.system.StructStatVfs;
 import org.apache.harmony.luni.util.DeleteOnExit;
 import static libcore.io.OsConstants.*;
 

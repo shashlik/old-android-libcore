@@ -31,7 +31,7 @@ import java.net.UnknownHostException;
 import libcore.io.ErrnoException;
 import libcore.io.IoBridge;
 import libcore.io.Libcore;
-import libcore.io.StructGroupReq;
+import android.system.StructGroupReq;
 import libcore.util.EmptyArray;
 import static libcore.io.OsConstants.*;
 
