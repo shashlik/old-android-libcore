@@ -24,7 +24,7 @@ import java.util.Enumeration;
 import java.util.List;
 import libcore.io.ErrnoException;
 import libcore.io.Libcore;
-import libcore.io.StructStat;
+import android.system.StructStat;
 
 /**
  * Manipulates DEX files. The class is similar in principle to

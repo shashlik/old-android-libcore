@@ -29,7 +29,7 @@ import java.util.zip.ZipFile;
 import libcore.io.ErrnoException;
 import libcore.io.IoUtils;
 import libcore.io.Libcore;
-import libcore.io.StructStat;
+import android.system.StructStat;
 import static libcore.io.OsConstants.*;
 
 /**
