@@ -46,7 +46,7 @@
 #include <openssl/ssl.h>
 #include <openssl/x509v3.h>
 
-#include "AsynchronousSocketCloseMonitor.h"
+// #include "AsynchronousSocketCloseMonitor.h"
 #include "cutils/log.h"
 #include "JNIHelp.h"
 #include "JniConstants.h"
@@ -5768,7 +5768,7 @@ static int sslSelect(JNIEnv* env, int type, jobject fdObject, AppData* appData, 
             ptv = NULL;
         }
 
-        AsynchronousSocketCloseMonitor monitor(intFd);
+//         AsynchronousSocketCloseMonitor monitor(intFd);
         result = select(maxFd + 1, &rfds, &wfds, NULL, ptv);
         JNI_TRACE("sslSelect %s fd=%d appData=%p timeout_millis=%d => %d",
                   (type == SSL_ERROR_WANT_READ) ? "READ" : "WRITE",
