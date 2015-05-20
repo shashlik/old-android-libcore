@@ -48,7 +48,7 @@ import static libcore.io.OsConstants.*;
 import libcore.io.ErrnoException;
 import libcore.io.Libcore;
 import libcore.io.Streams;
-import libcore.io.StructTimeval;
+import android.system.StructTimeval;
 
 /**
  * Implementation of the class OpenSSLSocketImpl based on OpenSSL.
