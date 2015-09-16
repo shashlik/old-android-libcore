@@ -154,6 +154,7 @@ class JarVerifier {
      */
     JarVerifier(String name) {
         jarName = name;
+        System.out.println("Constructing a verifier for " + name);
     }
 
     /**

@@ -99,12 +99,15 @@ public class JarEntry extends ZipEntry {
      */
     public Certificate[] getCertificates() {
         if (parentJar == null) {
+            System.out.println("No parent jar");
             return null;
         }
         JarVerifier jarVerifier = parentJar.verifier;
         if (jarVerifier == null) {
+            System.out.println("No verifier");
             return null;
         }
+        System.out.println("Returning certificates from verifier");
         return jarVerifier.getCertificates(getName());
     }
 
