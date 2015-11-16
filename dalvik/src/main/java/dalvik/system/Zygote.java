@@ -183,7 +183,9 @@ public class Zygote {
      * @param command The shell command to execute.
      */
     public static void execShell(String command) {
-        String[] args = { "/system/bin/sh", "-c", command };
+//         String[] args = { "/system/bin/sh", "-c", command };
+        // SHASHLIK - because we aren't there...
+        String[] args = { "/bin/sh", "-c", command };
         try {
             Libcore.os.execv(args[0], args);
         } catch (ErrnoException e) {
