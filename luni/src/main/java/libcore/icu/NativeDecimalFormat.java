@@ -251,18 +251,18 @@ public final class NativeDecimalFormat implements Cloneable {
     public char[] formatLong(long value, FieldPosition field) {
         FieldPositionIterator fpi = FieldPositionIterator.forFieldPosition(field);
         char[] result = formatLong(this.address, value, fpi);
-        if (fpi != null) {
-            FieldPositionIterator.setFieldPosition(fpi, field);
-        }
+//         if (fpi != null) {
+//             FieldPositionIterator.setFieldPosition(fpi, field);
+//         }
         return result;
     }
 
     public char[] formatDouble(double value, FieldPosition field) {
         FieldPositionIterator fpi = FieldPositionIterator.forFieldPosition(field);
         char[] result = formatDouble(this.address, value, fpi);
-        if (fpi != null) {
-            FieldPositionIterator.setFieldPosition(fpi, field);
-        }
+//         if (fpi != null) {
+//             FieldPositionIterator.setFieldPosition(fpi, field);
+//         }
         return result;
     }
 
